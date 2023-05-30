@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Login page</title>
+        <meta charset="utf-8" />
+	</head>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        var token = "";
+        $(function() {
+            //基于表单的登录
+            /*$("#btn_submit").on('click', function() {
+                var data = new FormData($("#ajax_form")[0]);
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    processData: false, // 告诉jquery不要处理数据
+                    contentType: false, // 告诉jquery不要设置contentType
+                    data: data,
+                    url: '/loginApi',
+                    success: function(data) {
+                        console.log(data)
+                        token = data.token;
+                        alert("login:" + data);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {}
+                })
+            })*/
+
+            //基于json的登录
+            $("#btn_submit").on('click', function() {
+                var data = {username: $("#username").val(), password: $("#password").val()};
+                var captcha = $("#captcha").val();
+                var a = "";
+                if(captcha)
+                    a = "?verifyCode=" + captcha
+
+                $.ajax({
+                    type: 'POST',
+                    dataType: 'json',
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    url: '/loginApi' + a,
+                    success: function(data) {
+                        console.log(data)
+                        token = data.token;
+                        alert("login:" + data);
+                    },
+                    error: function(xhr, textStatus, errorThrown) {}
+                })
+            })
+
+            //测试接口test1
+            $("#test1").on('click', function() {
+                $.ajax({
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    type: 'GET',
+                    dataType: 'text',
+                    url: '/test1',
+                    success: function(data) {
+                        alert(data)
+                    },
+                    error: function(xhr, textStatus, errorThrown) {}
+                })
+            })
+
+            $("#test2").on('click', function() {
+                $.ajax({
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    type: 'GET',
+                    dataType: 'text',
+                    url: '/test1',
+                    success: function(data) {
+                        alert(data)
+                    },
+                    error: function(xhr, textStatus, errorThrown) {}
+                })
+            })
+
+            $("#test3").on('click', function() {
+                $.ajax({
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    },
+                    type: 'GET',
+                    dataType: 'text',
+                    url: '/logout',
+                    success: function(data) {
+                        alert(data)
+                    },
+                    error: function(xhr, textStatus, errorThrown) {}
+                })
+            })
+        })
+
+    </script>
+
+    <body>
+		<form id="ajax_form">
+			<div><input type="text" id="username" name="username" placeholder="邮箱/手机/用户名"/></div>
+			<div><input type="text" id="password" name="password" placeholder="请输入密码"/></div>
+			<button id="btn_submit" type="button">登录</button>
+        </form>
+        <br/>
+        <img src="/code/image">
+        <input type="text" id="captcha" name="captcha" placeholder="验证码"/>
+        <br/>
+        <button id="test1" type="button">测试1</button>
+        <br/>
+        <button id="test2" type="button">测试2</button>
+        <br/>
+        <button id="test3" type="button">登出</button>
+    </body>
+</html>

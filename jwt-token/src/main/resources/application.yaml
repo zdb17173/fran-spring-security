@@ -1,0 +1,18 @@
+spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+
+security:
+  jwt:
+    httpRequestHeader: "Authorization"
+    secret: "Zd+kZozTI5OgURtqbcWS.sD232sdJOOpsdy=TkssdWEEDSJkasHUWEKgsdUWOkkdsauDSDHJklsfFYUGINOIJK"
+    expireSecond: 1200
+  captcha:
+    expireSecond: 60
+    enable: true
+  #redis | memory | none
+  storeType: "redis"
+  redis:
+    prefix: "jwt-token-cache-1"

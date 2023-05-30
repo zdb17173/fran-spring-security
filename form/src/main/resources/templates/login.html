@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>Login page</title>
+        <meta charset="utf-8" />
+	</head>
+    <body>
+        <h1>Login page</h1>
+        <p>Example user: user / password / verify code</p>
+        <p th:if="${loginError}" class="error">登录失败：<span th:text="${loginError}"></span></p>
+        <p th:if="${verifyCodeError}" class="error">验证码错误，请重新输入！</p>
+        <form th:action="@{/loginApi}" method="post">
+            <label for="username">Username</label>:
+            <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
+            <label for="password">Password</label>:
+            <input type="password" id="password" name="password" /> <br />
+            <label for="captchaCode">验证码</label>:
+            <input type="text" id="verifyCode" name="verifyCode" /> <img src="/code/image"><br />
+            <input type="submit" value="Log in" />
+        </form>
+        <p><a href="/index" th:href="@{/index}">Back to home page</a></p>
+    </body>
+</html>
